@@ -1,13 +1,14 @@
 import { Col, Row } from 'reactstrap';
+import { useSelector } from 'react-redux';
 import AnimatedDisplayCard from './AnimatedDisplayCard';
 import { selectFeaturedCampsite } from '../campsites/campsitesSlice';
 import { selectFeaturedPromotion } from '../promotions/promotionSlice';
 import { selectFeaturedPartner } from '../partners/partnersSlice';
 
 const DisplayList = () => {
-    const items = [selectFeaturedCampsite(), 
-        selectFeaturedPromotion(), 
-        selectFeaturedPartner()];
+    const items = [useSelector(selectFeaturedCampsite), 
+        useSelector(selectFeaturedPromotion), 
+        useSelector(selectFeaturedPartner)];
     return (
         <Row className="justify-content-center">
             {items.map((item, idx) => {

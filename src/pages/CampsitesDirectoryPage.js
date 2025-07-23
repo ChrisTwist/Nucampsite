@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Container, Row, Col } from 'reactstrap';
+import { useSelector } from 'react-redux';
 import CampsiteDetail from '../features/campsites/CampsiteDetail';
 import CampsitesList from '../features/campsites/CampsitesList';
 import { selectCampsiteById } from '../features/campsites/campsitesSlice';
@@ -8,7 +9,7 @@ import SubHeader from '../components/SubHeader';
 
 const CampsitesDirectoryPage = () => {
     const [campsiteId, setCampsiteId] = useState(0);
-    const selectedCampsite = selectCampsiteById(campsiteId);
+    const selectedCampsite = useSelector(selectCampsiteById(campsiteId));
 
     return (
         <Container> 
