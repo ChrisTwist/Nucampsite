@@ -1,16 +1,27 @@
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Button, Label, Col, FormGroup } from "reactstrap";
 import { Formik, Field, Form, ErrorMessage } from "formik";
+import { Link } from "react-router-dom";
 import { validateSignUpForm } from "../utils/validateSignUpForm";
+import { registerUser, selectUserIsLoading, selectUserError } from "../features/user/userSlice";
 
 const SignUpForm = () => {
-  const handleSubmit = (values, { resetForm }) => {
-    console.log('Sign-up form values:', values);
-    console.log('in JSON format:', JSON.stringify(values));
-    
-    // Here you would typically send the data to your backend
-    // For now, we'll just show a success message
-    alert('Account created successfully! Welcome to NuCamp!');
-    resetForm();
+  const dispatch = useDispatch();
+  const isLoading = useSelector(selectUserIsLoading);
+  const submissionError = useSelector(selectUserError);
+  const [signupSuccess, setSignupSuccess] = useState(false);
+
+  const handleSubmit = async (values, { resetForm }) => {
+    const resultAction = await dispatch(registerUser(values));
+
+    if (registerUser.fulfilled.match(resultAction)) {
+      setSignupSuccess(true);
+      setTimeout(() => {
+        resetForm();
+        setSignupSuccess(false);
+      }, 5000); // Reset form after 5 seconds
+    }
   };
 
   return (
@@ -30,6 +41,16 @@ const SignUpForm = () => {
       validate={validateSignUpForm}
     >
       <Form>
+        {signupSuccess && (
+          <div className="alert alert-success" role="alert">
+            Account created successfully! Welcome to NuCamp! You are now logged in.
+          </div>
+        )}
+        {submissionError && (
+          <div className="alert alert-danger" role="alert">
+            Sign-up failed: {submissionError}
+          </div>
+        )}
         {/* First Name */}
         <FormGroup row>
           <Label htmlFor="firstName" md="3">
@@ -162,13 +183,13 @@ const SignUpForm = () => {
                 className="form-check-input"
               />{" "}
               I agree to the{" "}
-              <a href="#terms" className="text-primary">
+              <Link to="/terms" className="text-primary">
                 Terms and Conditions
-              </a>{" "}
+              </Link>{" "}
               and{" "}
-              <a href="#privacy" className="text-primary">
+              <Link to="/privacy" className="text-primary">
                 Privacy Policy
-              </a>
+              </Link>
               *
             </Label>
             <ErrorMessage name="agreeToTerms">
@@ -194,8 +215,8 @@ const SignUpForm = () => {
         {/* Submit Button */}
         <FormGroup row>
           <Col md={{ size: 9, offset: 3 }}>
-            <Button type="submit" color="success" size="lg" block>
-              <i className="fa fa-user-plus"></i> Create Account
+            <Button type="submit" color="success" size="lg" block disabled={isLoading}>
+              {isLoading ? <><span className="fa fa-spinner fa-spin" /> Creating Account...</> : <><i className="fa fa-user-plus" /> Create Account</>}
             </Button>
           </Col>
         </FormGroup>
@@ -205,9 +226,9 @@ const SignUpForm = () => {
           <Col md={{ size: 9, offset: 3 }} className="text-center">
             <p className="mt-3">
               Already have an account?{" "}
-              <a href="/login" className="text-primary">
+              <Link to="/login" className="text-primary">
                 Sign in here
-              </a>
+              </Link>
             </p>
           </Col>
         </FormGroup>

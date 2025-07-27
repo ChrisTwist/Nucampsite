@@ -8,7 +8,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import CampsitesDirectoryPage from './pages/CampsitesDirectoryPage';
 import './App.css';
-import CampsiteDetail from './pages/CampusDetailPage';
+import CampsiteDetailPage from './pages/CampusDetailPage';
 
 
 function App() {
@@ -23,7 +23,7 @@ function App() {
                 <Route path='login' element={<LoginPage />} />
                 <Route path='directory' element={<CampsitesDirectoryPage />} />
                 <Route 
-                    path='directory/:campsiteId' element={<CampsiteDetail />} 
+                    path='directory/:campsiteId' element={<CampsiteDetailPage />} 
                 />
             </Routes>
             <Footer />

@@ -5,18 +5,18 @@ import {
     Collapse,
     NavbarToggler,
     Nav,
-    NavItem,
-    Button
+    NavItem
 } from 'reactstrap';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import NucampLogo from '../app/assets/img/logo.png';
+import UserLoginForm from '../features/user/UserLoginForm';
 
 const Header = () => {
     const [menuOpen, setMenuOpen] = useState(false);
 
     return (
         <Navbar dark color='primary' sticky='top' expand='md'>
-            <NavbarBrand className='ms-5' href='/'>
+            <NavbarBrand className='ms-5' tag={Link} to='/'>
                 <img src={NucampLogo} alt='nucamp logo' className='float-start' />
                 <h1 className='mt-1'>NuCamp</h1>
             </NavbarBrand>
@@ -43,18 +43,8 @@ const Header = () => {
                             <i className='fa fa-address-card fa-lg' /> Contact
                         </NavLink>
                     </NavItem>
-                    <NavItem className='ms-2'>
-                        <Button 
-                            color='success' 
-                            size='sm'
-                            tag={NavLink} 
-                            to='/signup'
-                            className='text-decoration-none'
-                        >
-                            <i className='fa fa-user-plus' /> Sign Up
-                        </Button>
-                    </NavItem>
                 </Nav>
+                <UserLoginForm />
             </Collapse>
         </Navbar>
     );
