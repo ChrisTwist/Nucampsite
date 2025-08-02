@@ -1,17 +1,37 @@
 import { Card, CardImg, CardImgOverlay, CardTitle } from "reactstrap";
 import { Link } from 'react-router-dom';
 
-const CampsiteCard = (props) => {
+const CampsiteCard = ({ campsite, setCampsiteId }) => {
+  // If setCampsiteId is provided, this is for the directory page
+  if (setCampsiteId) {
+    return (
+      <Card 
+        onClick={() => setCampsiteId(campsite.id)}
+        style={{ cursor: 'pointer' }}
+      >
+        <CardImg
+          width="100%"
+          src={campsite.image}
+          alt={campsite.name}
+        />
+        <CardImgOverlay>
+          <CardTitle>{campsite.name}</CardTitle>
+        </CardImgOverlay>
+      </Card>
+    );
+  }
+
+  // Otherwise, this is for navigation to individual campsite pages
   return (
-    <Link to={`${props.campsite.id}`}>
+    <Link to={`${campsite.id}`}>
       <Card>
         <CardImg
           width="100%"
-          src={props.campsite.image}
-          alt={props.campsite.name}
+          src={campsite.image}
+          alt={campsite.name}
         />
         <CardImgOverlay>
-          <CardTitle>{props.campsite.name}</CardTitle>
+          <CardTitle>{campsite.name}</CardTitle>
         </CardImgOverlay>
       </Card>
     </Link> 

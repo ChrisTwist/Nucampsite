@@ -19,7 +19,14 @@ const CampsitesDirectoryPage = () => {
                     <CampsitesList setCampsiteId={setCampsiteId} />
                 </Col>
                 <Col sm="7" md="5">
-                    <CampsiteDetail campsite={selectedCampsite} />
+                    {selectedCampsite ? (
+                        <CampsiteDetail campsite={selectedCampsite} />
+                    ) : (
+                        <div className="m-1">
+                            <h4>Select a Campsite</h4>
+                            <p>Click on a campsite image to view details.</p>
+                        </div>
+                    )}
                 </Col>
             </Row>
         </Container>
